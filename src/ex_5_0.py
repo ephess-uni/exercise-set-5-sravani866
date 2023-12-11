@@ -12,7 +12,7 @@ def line_count(infile):
             num_lines = len(lines)
 
             # Print the number of lines to standard output
-            print(f"The number of lines in {infile} is: {num_lines}")
+            print(num_lines)
 
      except FileNotFoundError:
          print(f"Error: File {infile} not found.")
