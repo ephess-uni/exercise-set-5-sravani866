@@ -1,6 +1,7 @@
 """ex_5_1.py"""
 import argparse
 import subprocess
+import sys
 
 try:
     from src.ex_5_0 import line_count
@@ -20,16 +21,16 @@ if __name__ == "__main__":
     # Tests will run your command using a system call.
     # To test your program with arguments, run it from the command line
     # (see README.md for more details)
-     parser = argparse.ArgumentParser(description="This program prints the number of lines in infile.")
+     #parser = argparse.ArgumentParser(description="This program prints the number of lines in infile.")
 
     # Add a positional argument 'infile' to the parser
-     parser.add_argument('infile', help='The input file to count lines.')
+     #parser.add_argument('infile.txt', help='The input file to count lines.')
 
     # Parse the command-line arguments
-     args = parser.parse_args()
+     args = sys.argv[1]
 
     # Call the main function with the infile argument
-     main(args.infile)
+     main(args)
 
     # Additional code to run tests using a system call
      try:
@@ -37,6 +38,8 @@ if __name__ == "__main__":
          subprocess.run(['testpy', 'tests/src.ex_5_0.py'])
      except FileNotFoundError:
          print("Error: Please make sure 'pytest' is installed.")
+
+         
 
 
       
