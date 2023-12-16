@@ -7,19 +7,12 @@ This module contains an entry point that:
 """
 import numpy as np
 from argparse import ArgumentParser
+try:
+    from src.util import get_repository_root
+except ImportError:
+    from util import get_repository_root
 
-def process_data(infile, outfile):
-    # Load the data from the file
-    data = np.loadtxt(infile, delimiter=',')
 
-    # Modify the input data so that it has a mean of 0
-    mean_centered_data = data - np.mean(data, axis=0)
-
-    # Modify the zero mean data so that it has a standard deviation of 1
-    processed_data = mean_centered_data / np.std(mean_centered_data, axis=0)
-
-    # Save the processed data to OUTFILE using numpy routines
-    np.savetxt(outfile, processed_data, delimiter=',')
 if __name__ == "__main__":
     # Create your argument parser object here.
     # Collect the filename arguments from the command line
@@ -28,18 +21,16 @@ if __name__ == "__main__":
     # Tests will run your command using a system call.
     # To test your program with arguments, run it from the command line
     # (see README.md for more details)
-    parser = ArgumentParser(description="This program shifts and scales the data to a mean of 0 and a standard deviation of 1.")
 
-    # Add positional arguments
-    parser.add_argument("infile", help="Input filename for the data file that needs to be processed.")
-    parser.add_argument("outfile", help="Output filename for the processed data.")
+    import os
 
-    # Parse the command-line arguments
+    parser = ArgumentParser(description='This programme writes the data from the input file to the output file after applying a standard scale transform..')
+    parser.add_argument('infile', help='provide input file path', nargs='?')
+    parser.add_argument('outfile', help='provide output file path', nargs='?')
     args = parser.parse_args()
-
-    # Process the data
-    process_data(args.infile, args.outfile)
-
-    print(f"Data processed and saved to {args.outfile}.")
-
-
+    input_data = np.loadtxt(args.infile)
+    normalized = (input_data - input_data.mean(axis=0) / input_data.std(axis=0))
+    processed = normalized
+    root_dir = get_repository_root()
+    os.makedirs(root_dir / "outputs", exist_ok=True)
+    np.savetxt(args.outfile, processed, fmt='%.2e')
