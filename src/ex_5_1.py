@@ -9,10 +9,9 @@ except ImportError:
     from ex_5_0 import line_count
 
 
-def main(infile):
-    """Call line_count with the infile argument."""
-    line_count(infile)
-
+    def main(infile):
+        """Call line_count with the infile argument."""
+        line_count(infile)
 
 if __name__ == "__main__":
     # Create your argument parser object here.
@@ -21,25 +20,13 @@ if __name__ == "__main__":
     # Tests will run your command using a system call.
     # To test your program with arguments, run it from the command line
     # (see README.md for more details)
-     #parser = argparse.ArgumentParser(description="This program prints the number of lines in infile.")
+    import argparse
 
-    # Add a positional argument 'infile' to the parser
-     #parser.add_argument('infile.txt', help='The input file to count lines.')
-
-    # Parse the command-line arguments
-     args = sys.argv[1]
-
-    # Call the main function with the infile argument
-     main(args)
-
-    # Additional code to run tests using a system call
-     try:
-        # Replace 'pytest' with the actual command to run your tests
-         subprocess.run(['testpy', 'tests/src.ex_5_0.py'])
-     except FileNotFoundError:
-         print("Error: Please make sure 'pytest' is installed.")
-
-         
+    parser = argparse.ArgumentParser(description="This program prints the number of lines in infile.")
+    parser.add_argument('infile', help='provide file path', nargs='?')
+    args = parser.parse_args()
+    if args.infile:
+        main(args.infile)         
 
 
       
